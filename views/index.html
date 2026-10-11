@@ -1,0 +1,218 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#f8f5ff">
+  <title data-i18n="page_title">PictureWise AI | Purpose-aware image generation</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&family=Noto+Sans+Devanagari:wght@400;500;600;700&family=Noto+Sans+Tamil:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="top-left">
+      <button id="menuToggle" class="menu-toggle" type="button" aria-label="Toggle navigation menu" aria-controls="siteMenu" aria-expanded="false" data-i18n-aria-label="menu_toggle">
+        <span></span><span></span><span></span>
+      </button>
+      <a class="brand" href="#home" aria-label="PictureWise AI home" data-i18n-aria-label="brand_aria">
+        <span class="brand-icon">✳</span><span>picturewise <b>AI</b></span>
+      </a>
+    </div>
+    <nav id="siteMenu" class="site-menu" aria-label="Main navigation" data-i18n-aria-label="menu_navigation" hidden>
+      <a href="#home" data-i18n="menu_home">Home</a>
+      <a href="#create" data-i18n="menu_create">Create an image</a>
+      <a id="historyLink" href="#history" data-i18n="history_menu">History</a>
+      <a href="#how-it-works" data-i18n="menu_how">How it works</a>
+    </nav>
+    <div class="top-right">
+      <span class="status"><span class="live-dot"></span><span id="modeLabel" data-i18n="mode_checking">Checking mode…</span></span>
+      <label class="language-control" for="languageSelect"><span data-i18n="language_label">Language</span>
+        <select id="languageSelect" aria-label="Choose language">
+          <option value="en">English</option>
+          <option value="ta">தமிழ்</option>
+          <option value="hi">हिन्दी</option>
+        </select>
+      </label>
+      <span class="pill" data-i18n="edition">EDUCATION EDITION</span>
+    </div>
+  </header>
+
+  <main id="home">
+    <section class="hero">
+      <div class="hero-copy-block">
+        <div class="eyebrow"><span class="sparkle">✦</span><span data-i18n="hero_eyebrow">SMARTER GENERATION, LESS WASTE</span></div>
+        <h1 data-i18n="hero_title">Every picture deserves the right amount of AI.</h1>
+        <p class="hero-copy" data-i18n="hero_copy">Purpose-aware image generation for schools. Match image quality to the task, avoid over-processing simple visuals, and make compute use visible.</p>
+        <div class="hero-stats">
+          <div><strong>300</strong><span data-i18n="stat_schools">schools in the scenario</span></div>
+          <i></i>
+          <div><strong>4</strong><span data-i18n="stat_profiles">purpose-based profiles</span></div>
+          <i></i>
+          <div><strong>↓</strong><span data-i18n="stat_effort">right-sized effort</span></div>
+        </div>
+      </div>
+      <div class="hero-art" aria-hidden="true"><div class="art-orbit orbit-one"></div><div class="art-orbit orbit-two"></div><div class="art-core">✧</div><span class="art-star star-one">✦</span><span class="art-star star-two">✳</span><span class="art-star star-three">✦</span></div>
+    </section>
+
+    <div class="workspace" id="workspace">
+      <section class="panel form-panel" id="create">
+        <div class="panel-heading">
+          <div><span class="step">01</span><h2 data-i18n="create_heading">Create an image</h2></div>
+          <span class="tiny-label" data-i18n="routing_label">PURPOSE ROUTING</span>
+        </div>
+        <label class="field-label" data-i18n="purpose_label">What is this picture for?</label>
+        <div class="purpose-grid" id="purposeGrid">
+          <button class="purpose-card" data-purpose="colouring" type="button" aria-pressed="false"><span class="purpose-icon">✎</span><strong data-i18n="purpose_colouring">Colouring sheet</strong><small data-i18n="purpose_colouring_desc">Bold outlines · black and white</small><span class="check">✓</span></button>
+          <button class="purpose-card" data-purpose="worksheet" type="button"><span class="purpose-icon">▤</span><strong data-i18n="purpose_worksheet">Worksheet</strong><small data-i18n="purpose_worksheet_desc">Simple learning visual</small><span class="check">✓</span></button>
+          <button class="purpose-card" data-purpose="flashcard" type="button"><span class="purpose-icon">▣</span><strong data-i18n="purpose_flashcard">Flashcard</strong><small data-i18n="purpose_flashcard_desc">Clear and memorable</small><span class="check">✓</span></button>
+          <button class="purpose-card" data-purpose="poster" type="button"><span class="purpose-icon">▧</span><strong data-i18n="purpose_poster">Full-colour poster</strong><small data-i18n="purpose_poster_desc">More detail for display</small><span class="check">✓</span></button>
+        </div>
+
+        <label class="field-label" for="prompt" data-i18n="prompt_label">Describe the image</label>
+        <textarea id="prompt" rows="4" data-i18n-placeholder="prompt_placeholder" placeholder="Example: A friendly butterfly sitting on a flower…"></textarea>
+
+        <p class="prompt-note" data-i18n="simple_prompt_note">You can write in English, Tamil, or Hindi. PictureWise sends an English version to the image AI.</p>
+        <section id="recommendationPanel" class="recommendation-panel" aria-live="polite" aria-atomic="true">
+          <div class="recommendation-heading">
+            <strong data-i18n="recommend_panel_title">Purpose and effort suggestion</strong>
+            <span id="recommendationStatus" class="recommendation-status" data-i18n="recommend_neutral">Waiting for your description</span>
+          </div>
+          <p id="recommendationMessage" class="recommendation-message" data-i18n="recommend_neutral_hint">Describe the image to get a recommendation.</p>
+          <div id="recommendationContent" hidden>
+            <div class="recommendation-values">
+              <div id="recommendedPurposeRow"><span data-i18n="recommend_purpose_label">Suggested purpose</span><strong id="recommendedPurpose"></strong><span id="purposeConfidence" class="confidence-tag"></span></div>
+              <div><span data-i18n="recommend_tier_label">Suggested tier</span><strong id="recommendedTier"></strong></div>
+            </div>
+            <p id="recommendationReason" class="recommendation-reason"></p>
+            <p id="recommendationClues" class="recommendation-detail" hidden></p>
+            <p id="recommendationAmbiguity" class="recommendation-warning" hidden></p>
+            <p id="recommendationLanguage" class="recommendation-detail" hidden></p>
+            <p id="recommendationOverride" class="recommendation-override" hidden></p>
+            <button id="useRecommendation" class="recommendation-action" type="button" data-i18n="recommend_use">Use recommendation</button>
+          </div>
+        </section>
+
+        <div class="field-row">
+          <div><label class="field-label" for="qualityTier" data-i18n="quality_label">Quality tier</label>
+            <select id="qualityTier">
+              <option value="economy" data-i18n="tier_economy">Economy (SD-style)</option>
+              <option value="detail" data-i18n="tier_detail">Higher detail (HD-style)</option>
+            </select>
+          </div>
+          <div><label class="field-label" for="audience" data-i18n="audience_label">Age group</label>
+            <select id="audience">
+              <option value="5-7 years" data-i18n="age_5_7">5–7 years</option>
+              <option value="8-10 years" data-i18n="age_8_10">8–10 years</option>
+              <option value="11-14 years" data-i18n="age_11_14">11–14 years</option>
+              <option value="general audience" data-i18n="age_general">General audience</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="tip"><span>✦</span><p><strong data-i18n="tip_title">Purpose-aware generation</strong><br><span data-i18n="tip_body">Purpose controls the visual style. The quality tier controls the actual inference-step budget.</span></p></div>
+        <button id="generateBtn" class="primary-btn" type="button"><span class="button-star">✦</span><span data-i18n="generate_button">Generate image</span><span class="arrow">→</span></button>
+        <div id="alert" class="alert" role="status" aria-live="polite"></div>
+      </section>
+
+      <aside class="panel plan-panel" id="plan" hidden>
+        <div class="panel-heading">
+          <div><span class="step">02</span><h2 data-i18n="simple_plan_heading">Before you create</h2></div>
+          <span class="auto-tag" data-i18n="simple_plan_tag">AI WORK GUIDE</span>
+        </div>
+        <p class="muted" data-i18n="simple_plan_subtitle">See how much work the AI will use. New requests show two choices.</p>
+        <div class="profile-banner">
+          <div class="profile-symbol" id="profileSymbol">✎</div>
+          <div><span class="tiny-label" data-i18n="selected_profile">SELECTED PROFILE</span><strong id="profileName">Colouring sheet · Economy</strong><small id="profileStyle">Bold outlines and no shading</small></div>
+        </div>
+        <div class="metrics">
+          <div class="metric"><span data-i18n="simple_picture_detail">Picture detail</span><strong id="estimateTier">Economy</strong></div>
+          <div class="metric"><span data-i18n="simple_ai_work_one">AI work for one picture</span><strong id="estimateSteps">4 / 8</strong></div>
+          <div class="metric"><span data-i18n="simple_ai_work_choices">AI work for two choices</span><strong id="estimateUnits">8 <small>units</small></strong></div>
+        </div>
+        <div class="savings-box">
+          <div class="savings-head"><span data-i18n="simple_less_work">Less AI work than high detail</span><strong id="savings">50%</strong></div>
+          <div class="bar"><span id="savingsBar" style="width:50%"></span></div>
+          <p data-i18n="simple_less_work_note">For each picture, compared with high detail.</p>
+        </div>
+        <div class="compare">
+          <div><span class="compare-dot grey"></span><span data-i18n="simple_more_detail">More detail</span><strong id="compareMaxSteps">8 steps</strong></div>
+          <div><span class="compare-dot lilac"></span><span data-i18n="simple_your_setting">Your setting</span><strong id="compareSteps">4 steps</strong></div>
+        </div>
+        <p id="choicesNote" class="disclaimer" data-i18n="simple_choices_note">A new description makes two picture choices. A matching saved description makes one choice.</p>
+      </aside>
+    </div>
+
+    <section class="result panel" id="resultPanel">
+      <div class="panel-heading"><div><span class="step">03</span><h2 data-i18n="simple_result_heading">Choose a picture</h2></div><span id="resultMode" class="tiny-label">RESULT</span></div>
+      <div class="result-content">
+        <div id="resultOptions" class="result-options" aria-live="polite"></div>
+        <div class="result-info">
+          <span class="tiny-label" data-i18n="simple_result_summary">ABOUT THESE PICTURES</span>
+          <h3 id="resultTitle">Colouring sheet</h3>
+          <p id="resultDescription">A simple visual with bold outlines.</p>
+          <p id="translationNote" class="translation-note"></p>
+          <p id="memoryNote" class="memory-note"></p>
+          <div class="summary-line"><span data-i18n="simple_picture_detail">Picture detail</span><strong id="summaryTier">Economy</strong></div>
+          <div class="summary-line"><span data-i18n="simple_choices_made">Choices made</span><strong id="summaryChoices">2</strong></div>
+          <div class="summary-line"><span data-i18n="simple_estimated_cost">Estimated compute cost</span><strong id="summaryUnits">8 units</strong></div>
+          <div class="summary-line"><span data-i18n="simple_savings_vs_max">Savings vs maximum setting</span><strong class="green" id="summarySavings">50% · 8 units</strong></div>
+          <p class="disclaimer" data-i18n="simple_result_note">This is a guide based on AI steps. It is not your exact cloud bill.</p>
+          <button id="downloadBtn" class="secondary-btn" type="button"><span>↓</span><span data-i18n="download_button">Download image</span></button>
+        </div>
+      </div>
+    </section>
+
+    <section class="cost-section" id="cost-savings" hidden>
+      <div class="eyebrow" data-i18n="cost_eyebrow">CONSTRAINT 1</div>
+      <h2 data-i18n="cost_heading">Estimated cost and savings, explained</h2>
+      <p class="cost-intro" data-i18n="cost_intro">Every generated result shows estimated compute work alongside the savings versus the maximum-detail setting.</p>
+      <section class="live-estimate" aria-labelledby="liveEstimateHeading">
+        <div class="live-estimate-heading">
+          <div>
+            <span class="tiny-label" data-i18n="simple_live_estimate_label">LIVE ESTIMATE</span>
+            <h3 id="liveEstimateHeading" data-i18n="simple_live_estimate_heading">Calculation for this generation</h3>
+          </div>
+          <span id="liveEstimateStatus" class="estimate-status" aria-live="polite">Ready</span>
+        </div>
+        <div class="live-estimate-grid">
+          <div><span data-i18n="simple_live_requested">Requested work</span><strong id="liveRequestedWork">4 steps × 2 choices = 8 units</strong></div>
+          <div><span data-i18n="simple_live_maximum">Maximum baseline</span><strong id="liveMaximumWork">8 steps × 2 choices = 16 units</strong></div>
+          <div><span data-i18n="simple_live_saved">Saved work</span><strong id="liveSavedWork">16 − 8 = 8 units (50%)</strong></div>
+          <div><span data-i18n="simple_live_progress">Generation progress</span><strong id="liveGenerationProgress">0 / 2 choices complete</strong></div>
+        </div>
+        <div class="live-estimate-footer">
+          <span id="liveElapsed">Elapsed: 0.0s</span>
+          <span data-i18n="simple_live_relative_note">Relative step units only — not measured energy or billed cost.</span>
+        </div>
+      </section>
+    </section>
+
+    <section class="history-section" id="history" hidden>
+      <div class="history-heading">
+        <div>
+          <div class="eyebrow" data-i18n="history_eyebrow">YOUR LIBRARY</div>
+          <h2 data-i18n="history_title">Generation history</h2>
+          <p data-i18n="history_intro">Images generated on this device appear here.</p>
+        </div>
+        <span id="historyCount" class="history-count" hidden></span>
+      </div>
+      <p id="historyStatus" class="history-status" role="status" data-i18n="history_open_hint">Choose History to see your saved images.</p>
+      <div id="historyGrid" class="history-grid" aria-live="polite"></div>
+    </section>
+
+    <section class="how-section" id="how-it-works">
+      <div class="eyebrow" data-i18n="how_eyebrow">HOW IT WORKS</div>
+      <h2 data-i18n="how_heading">A useful image, with a visible effort choice.</h2>
+      <div class="how-grid">
+        <article><span>01</span><h3 data-i18n="how_one_title">Choose the purpose</h3><p data-i18n="how_one_body">Select a colouring sheet, worksheet, flashcard, or poster.</p></article>
+        <article><span>02</span><h3 data-i18n="how_two_title">Choose the effort</h3><p data-i18n="how_two_body">Economy sends 4 steps; higher detail sends 8 steps to the model.</p></article>
+        <article><span>03</span><h3 data-i18n="how_three_title">See the estimate</h3><p data-i18n="how_three_body">Review the step-based estimate before and after generation.</p></article>
+      </div>
+    </section>
+    <footer><span>✳ picturewise AI</span><span data-i18n="footer_note">Purpose-aware image generation · Prototype</span></footer>
+  </main>
+  <script src="/script.js"></script>
+</body>
+</html>
